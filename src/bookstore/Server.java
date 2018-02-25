@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class Server {
 
 	public static void main(String[] args) throws IOException {
-		try (ServerSocket server = new ServerSocket(6799)) {
+		try (ServerSocket server = new ServerSocket(6790)) {
 			System.out.println(server);
 			try (Socket client = server.accept()) {
 				System.out.println(client);

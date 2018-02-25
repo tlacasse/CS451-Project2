@@ -8,9 +8,19 @@
   <sprites name="sprites"/>
   <backgrounds name="background"/>
   <paths name="paths"/>
+  <scripts name="scripts">
+    <script>scripts\client_create.gml</script>
+    <script>scripts\client_delete.gml</script>
+    <script>scripts\client_receive.gml</script>
+    <script>scripts\client_draw.gml</script>
+    <script>scripts\process_buffer.gml</script>
+  </scripts>
   <objects name="objects">
     <object>objects\client</object>
   </objects>
+  <rooms name="rooms">
+    <room>rooms\room_visualization</room>
+  </rooms>
   <help>
     <rtf>help.rtf</rtf>
   </help>
