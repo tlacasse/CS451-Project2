@@ -2,6 +2,7 @@ package bookstore.people;
 
 import bookstore.Config;
 import bookstore.Program;
+import bookstore.Queue;
 
 public class Visitor extends Person {
 
@@ -13,8 +14,8 @@ public class Visitor extends Person {
 	private int items;
 	private Status status;
 
-	public Visitor(Cashier[] cashiers) {
-		super(cashiers);
+	public Visitor(Queue<Visitor> queue) {
+		super(queue);
 		status = Status.SHOPPING;
 
 		items = 0;

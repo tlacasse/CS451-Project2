@@ -1,7 +1,7 @@
 package bookstore;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.List;
 
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
@@ -11,30 +11,51 @@ public class Store {
 	public final int cashierCount;
 	public final int visitorCount;
 
-	private final Cashier[] cashiers;
-	private final LinkedList<Visitor> queue;
+	private final ArrayList<Cashier> cashiers;
+	private final Queue<Visitor> queue;
 
 	public Store(int cashierCount, int visitorCount) {
 		this.cashierCount = cashierCount;
 		this.visitorCount = visitorCount;
-		
-		queue = new LinkedList<>();
-		cashiers = new Cashier[cashierCount];
+
+		queue = new Queue<>();
+		cashiers = new ArrayList<>(cashierCount);
 		for (int i = 0; i < cashierCount; i++) {
-			cashiers[i] = new Cashier(cashiers);
+			cashiers.add(new Cashier(queue));
 		}
 	}
-	
-	public void start(){
-		final ArrayList<Thread> threads = new ArrayList<>();
 
-		for (int i = 0; i < visitorCount; i++) {
-			threads.add(new Thread(new Visitor(cashiers)));
+	public void start() {
+		final ArrayList<Cashier> cashiers = new ArrayList<>();
+		final ArrayList<Thread> cashierThreads = new ArrayList<>();
+		final ArrayList<Thread> visitorThreads = new ArrayList<>();
+
+		for (int i = 0; i < cashierCount; i++) {
+			Cashier cashier = new Cashier(queue);
+			cashiers.add(cashier);
+			cashierThreads.add(new Thread(cashier));
 		}
-		for (Thread thread : threads) {
+		for (int i = 0; i < visitorCount; i++) {
+			visitorThreads.add(new Thread(new Visitor(queue)));
+		}
+		startThreads(cashierThreads);
+		startThreads(visitorThreads);
+		stopThreads(visitorThreads);
+		// fix
+		for (Cashier cashier : cashiers) {
+			cashier.setDone();
+		}
+		stopThreads(cashierThreads);
+	}
+
+	private void startThreads(List<Thread> list) {
+		for (Thread thread : list) {
 			thread.start();
 		}
-		for (Thread thread : threads) {
+	}
+
+	private void stopThreads(List<Thread> list) {
+		for (Thread thread : list) {
 			try {
 				thread.join();
 			} catch (InterruptedException ie) {
@@ -42,7 +63,5 @@ public class Store {
 			}
 		}
 	}
-	
-	
 
 }

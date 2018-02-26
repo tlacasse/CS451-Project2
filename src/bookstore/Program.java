@@ -1,10 +1,6 @@
 package bookstore;
 
-import java.util.ArrayList;
 import java.util.Scanner;
-
-import bookstore.people.Cashier;
-import bookstore.people.Visitor;
 
 public class Program {
 
