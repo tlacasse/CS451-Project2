@@ -1,6 +1,7 @@
 package bookstore.people;
 
 import bookstore.Config;
+import bookstore.Param;
 import bookstore.Program;
 import bookstore.Queue;
 
@@ -14,12 +15,12 @@ public class Visitor extends Person {
 	private int items;
 	private Status status;
 
-	public Visitor(Queue<Visitor> queue) {
-		super(queue);
+	public Visitor(Queue<Visitor> queue, Config config) {
+		super(queue, config);
 		status = Status.SHOPPING;
 
 		items = 0;
-		desiredItems = Config.ITEMS.random();
+		desiredItems = config.get(Param.ITEMS);
 	}
 
 	public Status getStatus() {
@@ -30,7 +31,7 @@ public class Visitor extends Person {
 	public void run() {
 		try {
 			while (items < desiredItems) {
-				Thread.sleep(Config.SHOPPING.random() * Config.TIME_UNIT);
+				Thread.sleep(config.get(Param.SHOPPING));
 				items++;
 				System.out.println(this);
 			}

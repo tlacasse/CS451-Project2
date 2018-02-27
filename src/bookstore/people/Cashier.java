@@ -1,25 +1,24 @@
 package bookstore.people;
 
+import bookstore.Config;
 import bookstore.Queue;
 
 public class Cashier extends Person {
 
-	private boolean isDone;
-
-	public Cashier(Queue<Visitor> queue) {
-		super(queue);
-		isDone = false;
+	public Cashier(Queue<Visitor> queue, Config config) {
+		super(queue, config);
 	}
 
 	@Override
 	public void run() {
-		while (!isDone) {
-			// fix
+		while (!config.isDone()) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
-	}
-
-	public void setDone() {
-		isDone = true;
+		System.out.println("Cashier " + id + " is done.");
 	}
 
 }

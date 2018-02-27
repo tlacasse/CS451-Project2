@@ -8,43 +8,28 @@ import bookstore.people.Visitor;
 
 public class Store {
 
-	public final int cashierCount;
-	public final int visitorCount;
-
-	private final ArrayList<Cashier> cashiers;
 	private final Queue<Visitor> queue;
+	private final Config config;
 
-	public Store(int cashierCount, int visitorCount) {
-		this.cashierCount = cashierCount;
-		this.visitorCount = visitorCount;
-
+	public Store() {
+		config = Config.create();
 		queue = new Queue<>();
-		cashiers = new ArrayList<>(cashierCount);
-		for (int i = 0; i < cashierCount; i++) {
-			cashiers.add(new Cashier(queue));
-		}
 	}
 
 	public void start() {
-		final ArrayList<Cashier> cashiers = new ArrayList<>();
 		final ArrayList<Thread> cashierThreads = new ArrayList<>();
 		final ArrayList<Thread> visitorThreads = new ArrayList<>();
 
-		for (int i = 0; i < cashierCount; i++) {
-			Cashier cashier = new Cashier(queue);
-			cashiers.add(cashier);
-			cashierThreads.add(new Thread(cashier));
+		for (int i = 0; i < config.get(Param.CASHIERS); i++) {
+			cashierThreads.add(new Thread(new Cashier(queue, config)));
 		}
-		for (int i = 0; i < visitorCount; i++) {
-			visitorThreads.add(new Thread(new Visitor(queue)));
+		for (int i = 0; i < config.get(Param.VISITORS); i++) {
+			visitorThreads.add(new Thread(new Visitor(queue, config)));
 		}
 		startThreads(cashierThreads);
 		startThreads(visitorThreads);
 		stopThreads(visitorThreads);
-		// fix
-		for (Cashier cashier : cashiers) {
-			cashier.setDone();
-		}
+		config.setDone();
 		stopThreads(cashierThreads);
 	}
 
