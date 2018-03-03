@@ -18,20 +18,28 @@ public class Store {
 	}
 
 	public void open(Server server) {
-		System.out.println("\n!!!!! BEGIN !!!!!\n");
-
 		final Thread serverThread = new Thread(server);
-		serverThread.start();
 
+		final ArrayList<Cashier> cashierList = new ArrayList<>();
+		final ArrayList<Visitor> visitorList = new ArrayList<>();
 		final ArrayList<Thread> cashierThreads = new ArrayList<>();
 		final ArrayList<Thread> visitorThreads = new ArrayList<>();
 
 		for (int i = 0; i < config.get(Param.CASHIERS); i++) {
-			cashierThreads.add(new Thread(new Cashier(queue, config)));
+			Cashier cashier = new Cashier(queue, config);
+			cashierList.add(cashier);
+			cashierThreads.add(new Thread(cashier));
 		}
 		for (int i = 0; i < config.get(Param.VISITORS); i++) {
-			visitorThreads.add(new Thread(new Visitor(queue, config)));
+			Visitor visitor = new Visitor(queue, config);
+			visitorList.add(visitor);
+			visitorThreads.add(new Thread(visitor));
 		}
+		server.setLists(visitorList, cashierList);
+
+		System.out.println("\n!!!!! BEGIN !!!!!\n");
+
+		serverThread.start();
 		startThreads(cashierThreads);
 		startThreads(visitorThreads);
 		stopThreads(visitorThreads);

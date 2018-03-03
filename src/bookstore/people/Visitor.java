@@ -10,7 +10,7 @@ import bookstore.Queue;
 public class Visitor extends Person {
 
 	public static enum Status {
-		SHOPPING, CHECKOUT;
+		SHOPPING, QUEUE, DONE;
 	}
 
 	private static final Random RAND = new Random();
@@ -45,12 +45,13 @@ public class Visitor extends Person {
 					System.out.println(this);
 				}
 			}
-			status = Status.CHECKOUT;
+			status = Status.QUEUE;
 			if (config.get(Param.DISPLAY) >= Config.DISPLAY_MID) {
 				System.out.println(this);
 			}
 			queue.enqueue(this);
 			wait.acquire();
+			status = Status.DONE;
 		} catch (InterruptedException ie) {
 			System.out.println("Thread Failed: " + this);
 			ie.printStackTrace();
@@ -62,6 +63,11 @@ public class Visitor extends Person {
 			throw new IllegalStateException();
 		}
 		wait.release();
+	}
+
+	@Override
+	public int[] snapshot() {
+		return new int[] { id, items, desiredItems, status.ordinal() };
 	}
 
 	@Override

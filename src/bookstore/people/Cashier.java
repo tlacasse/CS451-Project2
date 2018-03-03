@@ -46,6 +46,11 @@ public class Cashier extends Person {
 	}
 
 	@Override
+	public int[] snapshot() {
+		return new int[] { id, visitor.id, status.ordinal() };
+	}
+
+	@Override
 	public String toString() {
 		return super.toString() + "[" + status + "] (" + visitor + ")";
 	}

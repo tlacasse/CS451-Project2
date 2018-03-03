@@ -18,6 +18,8 @@ public abstract class Person implements Runnable {
 		id = idInc++;
 	}
 
+	public abstract int[] snapshot();
+
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " " + Program.rightPad(id + "", 7) + " ";
