@@ -1,6 +1,7 @@
 package bookstore.people;
 
 import bookstore.Config;
+import bookstore.Program;
 import bookstore.Queue;
 
 public abstract class Person implements Runnable {
@@ -15,6 +16,11 @@ public abstract class Person implements Runnable {
 		this.queue = queue;
 		this.config = config;
 		id = idInc++;
+	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getName() + " " + Program.rightPad(id + "", 5) + " ";
 	}
 
 }

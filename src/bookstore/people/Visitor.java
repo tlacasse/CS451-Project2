@@ -1,8 +1,9 @@
 package bookstore.people;
 
+import java.util.concurrent.Semaphore;
+
 import bookstore.Config;
 import bookstore.Param;
-import bookstore.Program;
 import bookstore.Queue;
 
 public class Visitor extends Person {
@@ -11,6 +12,7 @@ public class Visitor extends Person {
 		SHOPPING, CHECKOUT;
 	}
 
+	private final Semaphore wait;
 	private final int desiredItems;
 	private int items;
 	private Status status;
@@ -21,6 +23,8 @@ public class Visitor extends Person {
 
 		items = 0;
 		desiredItems = config.get(Param.ITEMS);
+
+		wait = new Semaphore(0);
 	}
 
 	public Status getStatus() {
@@ -37,15 +41,24 @@ public class Visitor extends Person {
 			}
 			status = Status.CHECKOUT;
 			System.out.println(this);
+			queue.enqueue(this);
+			wait.acquire();
 		} catch (InterruptedException ie) {
 			System.out.println("Thread Failed: " + this);
 			ie.printStackTrace();
 		}
 	}
 
+	public void checkOut() {
+		if (wait.availablePermits() > 0) {
+			throw new IllegalStateException();
+		}
+		wait.release();
+	}
+
 	@Override
 	public String toString() {
-		return Program.rightPad(id + "", 10) + " [" + status + "] (" + items + "/" + desiredItems + ")";
+		return super.toString() + "[" + status + "] (" + items + "/" + desiredItems + ")";
 	}
 
 }
