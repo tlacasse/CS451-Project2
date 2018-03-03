@@ -19,8 +19,7 @@ public class Program {
 				if (config == null) {
 					config = Config.create(scan);
 				}
-				Store store = new Store(config);
-				store.open(server);
+				(new Store(config)).open(server);
 				System.out.println("??? Go Again? (y/n)");
 				line = scan.nextLine();
 			}

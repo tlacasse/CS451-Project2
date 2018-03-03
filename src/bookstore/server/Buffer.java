@@ -3,9 +3,9 @@ package bookstore.server;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
-import bookstore.people.Cashier;
-import bookstore.people.Visitor;
+import bookstore.people.Person;
 
 public class Buffer {
 
@@ -15,6 +15,7 @@ public class Buffer {
 	public Buffer(int size, OutputStream stream) {
 		this.stream = stream;
 		buffer = ByteBuffer.allocate(size);
+		buffer.order(ByteOrder.LITTLE_ENDIAN);
 	}
 
 	public void send() throws IOException {
@@ -22,18 +23,18 @@ public class Buffer {
 		buffer.clear(); // does not erase data
 	}
 
-	public void write(Visitor visitor) {
-		buffer.put(Code.VISITOR.value);
-		for (int i : visitor.snapshot()) {
+	public void write(Person person) {
+		for (int i : person.snapshot()) {
 			buffer.putInt(i);
 		}
 	}
 
-	public void write(Cashier cashier) {
-		buffer.put(Code.CASHIER.value);
-		for (int i : cashier.snapshot()) {
-			buffer.putInt(i);
-		}
+	public void write(byte b) {
+		buffer.put(b);
+	}
+
+	public void write(int i) {
+		buffer.putInt(i);
 	}
 
 }

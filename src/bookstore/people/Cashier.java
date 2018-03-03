@@ -39,15 +39,16 @@ public class Cashier extends Person {
 					}
 				}
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		} catch (InterruptedException ie) {
+			System.out.println("Thread Failed: " + this);
+			ie.printStackTrace();
 		}
 		System.out.println("Cashier " + id + " is done.");
 	}
 
 	@Override
 	public int[] snapshot() {
-		return new int[] { id, visitor.id, status.ordinal() };
+		return new int[] { id, visitor == null ? -1 : visitor.id, status.ordinal() };
 	}
 
 	@Override

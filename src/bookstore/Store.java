@@ -35,7 +35,7 @@ public class Store {
 			visitorList.add(visitor);
 			visitorThreads.add(new Thread(visitor));
 		}
-		server.setLists(visitorList, cashierList);
+		server.setReferences(visitorList, cashierList, config);
 
 		System.out.println("\n!!!!! BEGIN !!!!!\n");
 

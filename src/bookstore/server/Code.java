@@ -2,7 +2,7 @@ package bookstore.server;
 
 public enum Code {
 
-	VISITOR(1), CASHIER(2);
+	RESTART(0), PEOPLE(1);
 
 	public final byte value;
 
