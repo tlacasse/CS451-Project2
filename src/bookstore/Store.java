@@ -17,6 +17,8 @@ public class Store {
 	}
 
 	public void start() {
+		System.out.println("\n!!!!! BEGIN !!!!!\n");
+
 		final ArrayList<Thread> cashierThreads = new ArrayList<>();
 		final ArrayList<Thread> visitorThreads = new ArrayList<>();
 

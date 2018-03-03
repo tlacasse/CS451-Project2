@@ -1,5 +1,6 @@
 package bookstore.people;
 
+import java.util.Random;
 import java.util.concurrent.Semaphore;
 
 import bookstore.Config;
@@ -11,6 +12,8 @@ public class Visitor extends Person {
 	public static enum Status {
 		SHOPPING, CHECKOUT;
 	}
+
+	private static final Random RAND = new Random();
 
 	private final Semaphore wait;
 	private final int desiredItems;
@@ -34,13 +37,18 @@ public class Visitor extends Person {
 	@Override
 	public void run() {
 		try {
+			Thread.sleep(RAND.nextInt(200) * config.get(Param.TIME));
 			while (items < desiredItems) {
 				Thread.sleep(config.get(Param.SHOPPING));
 				items++;
-				System.out.println(this);
+				if (config.get(Param.DISPLAY) >= Config.DISPLAY_ALL) {
+					System.out.println(this);
+				}
 			}
 			status = Status.CHECKOUT;
-			System.out.println(this);
+			if (config.get(Param.DISPLAY) >= Config.DISPLAY_MID) {
+				System.out.println(this);
+			}
 			queue.enqueue(this);
 			wait.acquire();
 		} catch (InterruptedException ie) {

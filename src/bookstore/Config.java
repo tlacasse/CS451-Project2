@@ -6,11 +6,17 @@ import java.util.Scanner;
 
 public class Config {
 
+	public static final int DISPLAY_MIN = 1;
+	public static final int DISPLAY_MID = 2;
+	public static final int DISPLAY_ALL = 3;
+
 	private static enum Key {
 		VISITORS("Visitors", 25), CASHIERS("Cashiers", 5), TIME("Time Unit, in ms", 20), MAXITEMS("Max Items",
 				6), MINSHOPPING("Min Shopping Time, in time units", 50), MAXSHOPPING("Max Shopping Time, in time units",
 						75), MINCHECKOUT("Min Checkout Time, in time units",
-								10), MAXCHECKOUT("Max Checkout Time, in time units", 20);
+								10), MAXCHECKOUT("Max Checkout Time, in time units", 20), DISPLAY(
+										"\t 1: Only Cashiers.\n\t 2: Cashiers + Checking out Visitors.\n\t 3: Cashiers + Visitors.\n Display mode",
+										2);
 
 		public final String desc;
 		public final int base;
@@ -66,6 +72,9 @@ public class Config {
 		}
 		if (param == Param.CHECKOUT) {
 			return values.get(Key.TIME) * randomRange(values.get(Key.MINCHECKOUT), values.get(Key.MAXCHECKOUT));
+		}
+		if (param == Param.DISPLAY) {
+			return values.get(Key.DISPLAY);
 		}
 		return -1;
 	}

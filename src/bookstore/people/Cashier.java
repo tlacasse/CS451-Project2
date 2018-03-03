@@ -7,7 +7,7 @@ import bookstore.Queue;
 public class Cashier extends Person {
 
 	public static enum Status {
-		WAITING, CHECKINGOUT;
+		WAITING, CHECKINGOUT, COMPLETE;
 	}
 
 	private Status status;
@@ -29,8 +29,14 @@ public class Cashier extends Person {
 					System.out.println(this);
 					Thread.sleep(config.get(Param.CHECKOUT));
 					visitor.checkOut();
-					status = Status.WAITING;
+					visitor = null;
+					status = Status.COMPLETE;
 					System.out.println(this);
+				} else {
+					if (status != Status.WAITING) {
+						status = Status.WAITING;
+						System.out.println(this);
+					}
 				}
 			}
 		} catch (InterruptedException e) {
