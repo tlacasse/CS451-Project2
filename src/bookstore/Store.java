@@ -5,19 +5,23 @@ import java.util.List;
 
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
+import bookstore.server.Server;
 
 public class Store {
 
 	private final Queue<Visitor> queue;
 	private final Config config;
 
-	public Store() {
-		config = Config.create();
+	public Store(Config config) {
+		this.config = config;
 		queue = new Queue<>();
 	}
 
-	public void start() {
+	public void open(Server server) {
 		System.out.println("\n!!!!! BEGIN !!!!!\n");
+
+		final Thread serverThread = new Thread(server);
+		serverThread.start();
 
 		final ArrayList<Thread> cashierThreads = new ArrayList<>();
 		final ArrayList<Thread> visitorThreads = new ArrayList<>();
@@ -33,6 +37,11 @@ public class Store {
 		stopThreads(visitorThreads);
 		config.setDone();
 		stopThreads(cashierThreads);
+		try {
+			serverThread.join();
+		} catch (InterruptedException ie) {
+			ie.printStackTrace();
+		}
 	}
 
 	private void startThreads(List<Thread> list) {

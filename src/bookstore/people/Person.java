@@ -20,7 +20,7 @@ public abstract class Person implements Runnable {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " " + Program.rightPad(id + "", 5) + " ";
+		return this.getClass().getSimpleName() + " " + Program.rightPad(id + "", 7) + " ";
 	}
 
 }

@@ -37,19 +37,17 @@ public class Config {
 		done = false;
 	}
 
-	public static Config create() {
+	public static Config create(Scanner scan) {
 		final Config config = new Config();
-		try (Scanner scan = new Scanner(System.in)) {
-			System.out.println("=== Change Parameters, leave blank for default ===");
-			for (Key key : Key.values()) {
-				System.out.println(key.desc + " (" + key.base + "):");
-				final String line;
-				final int value = (line = scan.nextLine()).equals("") ? key.base : Integer.parseInt(line);
-				if (value < 1) {
-					throw new IllegalArgumentException(key.desc + " must be greater than 0.");
-				}
-				config.values.put(key, value);
+		System.out.println("=== Change Parameters, leave blank for default ===");
+		for (Key key : Key.values()) {
+			System.out.println(key.desc + " (" + key.base + "):");
+			final String line;
+			final int value = (line = scan.nextLine()).equals("") ? key.base : Integer.parseInt(line);
+			if (value < 1) {
+				throw new IllegalArgumentException(key.desc + " must be greater than 0.");
 			}
+			config.values.put(key, value);
 		}
 		return config;
 	}
@@ -89,6 +87,11 @@ public class Config {
 
 	private int randomRange(int min, int max) {
 		return min + random.nextInt(max - min + 1);
+	}
+
+	Config clearState() {
+		done = false;
+		return this;
 	}
 
 }

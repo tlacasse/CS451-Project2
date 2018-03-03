@@ -28,9 +28,8 @@ public class Queue<E> {
 			E item = list.remove(0);
 			lock.release();
 			return item;
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 }
