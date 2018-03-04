@@ -7,7 +7,6 @@ import java.net.Socket;
 import java.util.List;
 
 import bookstore.Config;
-import bookstore.Param;
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
 
@@ -62,6 +61,12 @@ public class Server implements Runnable, AutoCloseable {
 		client = server.accept();
 		System.out.println(client);
 		stream = client.getOutputStream();
+	}
+
+	public void sendItemCount() throws IOException {
+		buffer.write(Code.ITEMS.value);
+		buffer.write(config.maxItemCount());
+		buffer.send();
 	}
 
 	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config) {

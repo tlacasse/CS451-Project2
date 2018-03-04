@@ -1,5 +1,6 @@
 package bookstore;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Store {
 		queue = new Queue<>(config);
 	}
 
-	public void open(Server server) {
+	public void open(Server server) throws IOException {
 		final Thread serverThread = new Thread(server);
 
 		final ArrayList<Cashier> cashierList = new ArrayList<>();
@@ -36,6 +37,7 @@ public class Store {
 			visitorThreads.add(new Thread(visitor));
 		}
 		server.setReferences(visitorList, cashierList, config);
+		server.sendItemCount();
 
 		System.out.println("\n!!!!! BEGIN !!!!!\n");
 

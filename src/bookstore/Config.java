@@ -11,7 +11,7 @@ public class Config {
 	public static final int DISPLAY_ALL = 3;
 
 	private static enum Key {
-		VISITORS("Visitors", 25), CASHIERS("Cashiers", 5), TIME("Time Unit, in ms, min 20", 20), MAXITEMS("Max Items",
+		VISITORS("Visitors", 25), CASHIERS("Cashiers", 5), TIME("Time Unit, in ms", 20), MAXITEMS("Max Items",
 				6), MINSHOPPING("Min Shopping Time, in time units", 50), MAXSHOPPING("Max Shopping Time, in time units",
 						75), MINCHECKOUT("Min Checkout Time, in time units",
 								10), MAXCHECKOUT("Max Checkout Time, in time units", 20), DISPLAY(
@@ -60,21 +60,25 @@ public class Config {
 			return values.get(Key.CASHIERS);
 		}
 		if (param == Param.TIME) {
-			return Math.max(values.get(Key.TIME), 20);
+			return values.get(Key.TIME);
 		}
 		if (param == Param.ITEMS) {
 			return randomRange(1, values.get(Key.MAXITEMS));
 		}
 		if (param == Param.SHOPPING) {
-			return get(Param.TIME) * randomRange(values.get(Key.MINSHOPPING), values.get(Key.MAXSHOPPING));
+			return values.get(Key.TIME) * randomRange(values.get(Key.MINSHOPPING), values.get(Key.MAXSHOPPING));
 		}
 		if (param == Param.CHECKOUT) {
-			return get(Param.TIME) * randomRange(values.get(Key.MINCHECKOUT), values.get(Key.MAXCHECKOUT));
+			return values.get(Key.TIME) * randomRange(values.get(Key.MINCHECKOUT), values.get(Key.MAXCHECKOUT));
 		}
 		if (param == Param.DISPLAY) {
 			return values.get(Key.DISPLAY);
 		}
 		return -1;
+	}
+
+	public int maxItemCount() {
+		return values.get(Key.MAXITEMS);
 	}
 
 	public boolean isDone() {

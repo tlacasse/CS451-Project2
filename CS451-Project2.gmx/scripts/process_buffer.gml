@@ -19,4 +19,8 @@ switch(type){
             update_visitor(_id, _items, _desired, _status);
         }
         break;
+    case 2:
+        maxitems = buffer_read(buffer, buffer_s32);
+        PLACE_GAP_Y = (room_width - (2 * PLACE_START_Y)) / (maxitems + 2);
+        break;
 }

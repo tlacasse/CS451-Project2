@@ -5,9 +5,10 @@ with(instance_create(-100, -100, Visitor)){
     items = argument1;
     desired = argument2;
     status = argument3;
+    v_pos_id = Client.v_pos_id;
     ds_map_add(Client.PEOPLE, argument0, id);
     
-    disp = irandom(500)
+    disp = v_pos_id * Client.PLACE_GAP_X;
     
     x = Client.PLACE_START_X + disp;
     y = Client.PLACE_START_Y;
@@ -15,3 +16,5 @@ with(instance_create(-100, -100, Visitor)){
     gotox = x;
     gotoy = y;
 }
+
+Client.v_pos_id++;
