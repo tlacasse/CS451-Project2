@@ -13,6 +13,8 @@ public class Program {
 			Config config = null;
 			while (isYes(line)) {
 				if (config != null) {
+					server.reset();
+
 					System.out.println("??? Use Same Parameters? (y/n)");
 					config = isYes(scan.nextLine()) ? config.clearState() : null;
 				}

@@ -7,15 +7,16 @@ import java.net.Socket;
 import java.util.List;
 
 import bookstore.Config;
+import bookstore.Param;
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
 
 public class Server implements Runnable, AutoCloseable {
 
 	private final ServerSocket server;
-	private final Socket client;
-	private final OutputStream stream;
 
+	private Socket client;
+	private OutputStream stream;
 	private Buffer buffer;
 
 	private List<Visitor> visitors;
@@ -53,6 +54,14 @@ public class Server implements Runnable, AutoCloseable {
 			System.out.println("Thread Failed: " + this);
 			ie.printStackTrace();
 		}
+	}
+
+	public void reset() throws IOException {
+		buffer.write(Code.RESTART.value);
+		buffer.send();
+		client = server.accept();
+		System.out.println(client);
+		stream = client.getOutputStream();
 	}
 
 	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config) {

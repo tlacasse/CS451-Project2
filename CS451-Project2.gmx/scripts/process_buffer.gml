@@ -5,6 +5,9 @@ var buffer = argument0;
 var type = buffer_read(buffer, buffer_s8);
 
 switch(type){
+    case 0:
+        game_restart();
+        break;
     case 1:
         var visitors = buffer_read(buffer, buffer_s32);
         var cashiers = buffer_read(buffer, buffer_s32);

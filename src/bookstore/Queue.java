@@ -8,8 +8,10 @@ public class Queue<E> {
 
 	private final Semaphore lock, available;
 	private final ArrayList<E> list;
+	private final Config config;
 
-	public Queue() {
+	public Queue(Config config) {
+		this.config = config;
 		list = new ArrayList<>();
 		lock = new Semaphore(1);
 		available = new Semaphore(0);
@@ -23,7 +25,7 @@ public class Queue<E> {
 	}
 
 	public E dequeue() throws InterruptedException {
-		if (available.tryAcquire(100, TimeUnit.MILLISECONDS)) {
+		if (available.tryAcquire(config.get(Param.TIME) * 3, TimeUnit.MILLISECONDS)) {
 			lock.acquire();
 			E item = list.remove(0);
 			lock.release();

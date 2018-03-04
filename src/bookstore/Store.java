@@ -14,7 +14,7 @@ public class Store {
 
 	public Store(Config config) {
 		this.config = config;
-		queue = new Queue<>();
+		queue = new Queue<>(config);
 	}
 
 	public void open(Server server) {
