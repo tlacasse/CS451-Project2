@@ -37,7 +37,7 @@ public class Visitor extends Person {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(RAND.nextInt(200) * config.get(Param.TIME));
+			Thread.sleep((100 + RAND.nextInt(150)) * config.get(Param.TIME));
 			while (items < desiredItems) {
 				Thread.sleep(config.get(Param.SHOPPING));
 				items++;

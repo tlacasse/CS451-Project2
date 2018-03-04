@@ -8,6 +8,6 @@ if (is_undefined(obj)){
     obj.items = argument1;
     obj.desired = argument2;
     obj.status = argument3;
-    obj.gotox = Client.PLACE_START_X + obj.disp; 
-    obj.gotoy = Client.PLACE_START_Y + (Client.PLACE_GAP_Y * obj.items); 
+    obj.gotox = Client.ITEMPOSITIONS[obj.items, 0] + obj.disp_x;
+    obj.gotoy = Client.ITEMPOSITIONS[obj.items, 1] + obj.disp_y;
 }

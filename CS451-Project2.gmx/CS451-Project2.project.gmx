@@ -25,6 +25,7 @@
     </scripts>
     <scripts name="Work">
       <script>scripts\update_visitor.gml</script>
+      <script>scripts\square_base.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
@@ -35,6 +36,7 @@
     <object>objects\Visitor</object>
   </objects>
   <rooms name="rooms">
+    <room>rooms\room_start</room>
     <room>rooms\room_visualization</room>
   </rooms>
   <help>

@@ -63,9 +63,10 @@ public class Server implements Runnable, AutoCloseable {
 		stream = client.getOutputStream();
 	}
 
-	public void sendItemCount() throws IOException {
+	public void sendSizes() throws IOException {
 		buffer.write(Code.ITEMS.value);
 		buffer.write(config.maxItemCount());
+		buffer.write(visitors.size());
 		buffer.send();
 	}
 

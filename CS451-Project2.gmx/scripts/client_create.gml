@@ -9,14 +9,28 @@ ISCONNECTED = network_connect_raw(SOCKET, "127.0.0.1", 6790);
 
 PEOPLE = ds_map_create();
 
-PLACE_START_X = 50;
-PLACE_START_Y = 80;
-PLACE_GAP_X = 20;
-PLACE_GAP_Y = 20;
+PLACE_DIV_X = 672;
+PLACE_DIV_Y = 672;
+PLACE_ITEM_R = 100;
 
-maxitems = -1;
+ITEM_X = 0;
+ITEM_Y = 0;
+ITEM_WIDTH = 0;
+ITEM_HEIGHT = 0;
+ITEMPOSITIONS[0, 0] = 0;
+PERSON_X = 0;
+PERSON_Y = 0;
+PERSON_WIDTH = 0;
+PERSON_HEIGHT = 0;
+
+MAXITEMS = -1;
+
 v_pos_id = 0;
 
 
 draw_set_color(c_black);
 draw_set_font(font_main);
+
+if (ISCONNECTED >= 0){
+    room_goto(room_visualization);
+}

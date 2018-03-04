@@ -37,7 +37,7 @@ public class Store {
 			visitorThreads.add(new Thread(visitor));
 		}
 		server.setReferences(visitorList, cashierList, config);
-		server.sendItemCount();
+		server.sendSizes();
 
 		System.out.println("\n!!!!! BEGIN !!!!!\n");
 

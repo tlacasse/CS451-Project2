@@ -5,13 +5,16 @@ with(instance_create(-100, -100, Visitor)){
     items = argument1;
     desired = argument2;
     status = argument3;
-    v_pos_id = Client.v_pos_id;
+    pos_id = Client.v_pos_id;
+    
     ds_map_add(Client.PEOPLE, argument0, id);
     
-    disp = v_pos_id * Client.PLACE_GAP_X;
     
-    x = Client.PLACE_START_X + disp;
-    y = Client.PLACE_START_Y;
+    disp_x = (Client.ITEM_WIDTH * 0.1) + ((pos_id % Client.PERSON_X) * Client.PERSON_WIDTH);
+    disp_y = (Client.ITEM_HEIGHT * 0.07) + ((pos_id div Client.PERSON_X) * Client.PERSON_HEIGHT);
+    
+    x = Client.ITEMPOSITIONS[items, 0] + disp_x;
+    y = Client.ITEMPOSITIONS[items, 1] + disp_y;
     
     gotox = x;
     gotoy = y;
