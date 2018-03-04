@@ -8,7 +8,6 @@ import java.util.List;
 
 import bookstore.Config;
 import bookstore.people.Cashier;
-import bookstore.people.Person;
 import bookstore.people.Visitor;
 
 public class Server implements Runnable, AutoCloseable {
@@ -37,9 +36,8 @@ public class Server implements Runnable, AutoCloseable {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(1000);
 			while (!config.isDone()) {
-				Thread.sleep(1000);
+				Thread.sleep(10);
 				buffer.write(Code.PEOPLE.value);
 				buffer.write(visitors.size());
 				buffer.write(cashiers.size());

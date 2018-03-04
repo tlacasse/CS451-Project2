@@ -25,9 +25,7 @@
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Create Client
-
-client_create();
+            <string>client_create();
 </string>
           </argument>
         </arguments>
@@ -50,9 +48,7 @@ client_create();
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Receive
-
-client_receive()
+            <string>client_receive()
 </string>
           </argument>
         </arguments>
@@ -75,9 +71,7 @@ client_receive()
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Delete Client
-
-client_delete()
+            <string>client_delete()
 </string>
           </argument>
         </arguments>
@@ -100,9 +94,7 @@ client_delete()
         <arguments>
           <argument>
             <kind>1</kind>
-            <string>///Draw Visualization
-
-client_draw();
+            <string>client_draw();
 </string>
           </argument>
         </arguments>

@@ -39,7 +39,7 @@ public class Config {
 
 	public static Config create(Scanner scan) {
 		final Config config = new Config();
-		System.out.println("=== Change Parameters, leave blank for default ===");
+		System.out.println("\n\n=== Change Parameters, leave blank for default ===");
 		for (Key key : Key.values()) {
 			System.out.println(key.desc + " (" + key.base + "):");
 			final String line;

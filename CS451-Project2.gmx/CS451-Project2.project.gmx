@@ -5,18 +5,30 @@
   </Configs>
   <NewExtensions/>
   <sounds name="sound"/>
-  <sprites name="sprites"/>
+  <sprites name="sprites">
+    <sprite>sprites\sprite_visitor</sprite>
+  </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
   <scripts name="scripts">
-    <script>scripts\client_create.gml</script>
-    <script>scripts\client_delete.gml</script>
-    <script>scripts\client_receive.gml</script>
-    <script>scripts\client_draw.gml</script>
-    <script>scripts\process_buffer.gml</script>
+    <scripts name="Client">
+      <script>scripts\client_create.gml</script>
+      <script>scripts\client_delete.gml</script>
+      <script>scripts\client_receive.gml</script>
+      <script>scripts\client_draw.gml</script>
+      <script>scripts\process_buffer.gml</script>
+    </scripts>
+    <scripts name="Visitor">
+      <script>scripts\_Visitor.gml</script>
+      <script>scripts\visitor_step.gml</script>
+    </scripts>
+    <scripts name="Work">
+      <script>scripts\update_visitor.gml</script>
+    </scripts>
   </scripts>
   <objects name="objects">
-    <object>objects\client</object>
+    <object>objects\Client</object>
+    <object>objects\Visitor</object>
   </objects>
   <rooms name="rooms">
     <room>rooms\room_visualization</room>
