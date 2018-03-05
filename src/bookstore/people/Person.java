@@ -8,6 +8,10 @@ public abstract class Person implements Runnable {
 
 	private static int idInc = 0;
 
+	public static void resetId() {
+		idInc = 0;
+	}
+
 	protected final Config config;
 	protected final Queue<Visitor> queue;
 	protected final int id;

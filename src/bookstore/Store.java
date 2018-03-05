@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bookstore.people.Cashier;
+import bookstore.people.Person;
 import bookstore.people.Visitor;
 import bookstore.server.Server;
 
@@ -52,6 +53,7 @@ public class Store {
 		} catch (InterruptedException ie) {
 			ie.printStackTrace();
 		}
+		Person.resetId();
 	}
 
 	private void startThreads(List<Thread> list) {

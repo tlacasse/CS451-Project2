@@ -65,6 +65,10 @@ public class Visitor extends Person {
 		wait.release();
 	}
 
+	public int items() {
+		return items;
+	}
+
 	@Override
 	public int[] snapshot() {
 		return new int[] { id, items, desiredItems, status.ordinal() };

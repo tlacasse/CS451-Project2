@@ -4,11 +4,8 @@ draw_set_valign(fa_middle);
 draw_set_halign(fa_center);
 
 if (MAXITEMS > 0){
-    for(var i = 0; i < MAXITEMS + 1; i++){
-        draw_text_transformed(
-            ITEMPOSITIONS[i, 0],
-            ITEMPOSITIONS[i, 1],
-            i, 2, 2, 0);
+    if (instance_number(ItemNumbers) == 0){
+        instance_create(0,0,ItemNumbers);
     }
     for(var i = 1; i < ITEM_X; i++){
         draw_line(ITEM_WIDTH * i, 0, ITEM_WIDTH * i, PLACE_DIV_Y);

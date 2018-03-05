@@ -27,7 +27,7 @@ public class Cashier extends Person {
 				if (visitor != null) {
 					status = Status.CHECKINGOUT;
 					System.out.println(this);
-					Thread.sleep(config.get(Param.CHECKOUT));
+					Thread.sleep(config.get(Param.CHECKOUT) * visitor.items());
 					visitor.checkOut();
 					visitor = null;
 					status = Status.COMPLETE;
