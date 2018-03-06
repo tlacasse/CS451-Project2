@@ -16,8 +16,8 @@ public class Visitor extends Person {
 	private static final Random RAND = new Random();
 
 	private final Semaphore wait;
-	private final int desiredItems;
-	private int items;
+	private final short desiredItems;
+	private short items;
 	private Status status;
 
 	public Visitor(Queue<Visitor> queue, Config config) {
@@ -65,13 +65,15 @@ public class Visitor extends Person {
 		wait.release();
 	}
 
-	public int items() {
+	public short items() {
 		return items;
 	}
 
+	public static final int SNAPSHOT_SIZE = 4;
+
 	@Override
-	public int[] snapshot() {
-		return new int[] { id, items, desiredItems, status.ordinal() };
+	public short[] snapshot() {
+		return new short[] { id, items, desiredItems, (short) status.ordinal() };
 	}
 
 	@Override

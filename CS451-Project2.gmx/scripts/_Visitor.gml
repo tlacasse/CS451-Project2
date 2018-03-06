@@ -10,8 +10,8 @@ with(instance_create(-100, -100, Visitor)){
     ds_map_add(Client.PEOPLE, argument0, id);
     
     
-    disp_x = (Client.ITEM_WIDTH * 0.1) + ((pos_id % Client.PERSON_X) * Client.PERSON_WIDTH);
-    disp_y = (Client.ITEM_HEIGHT * 0.07) + ((pos_id div Client.PERSON_X) * Client.PERSON_HEIGHT);
+    disp_x = (Client.ITEM_WIDTH * 0.15) + ((pos_id % Client.PERSON_X) * Client.PERSON_WIDTH);
+    disp_y = (Client.ITEM_HEIGHT * 0.1) + ((pos_id div Client.PERSON_X) * Client.PERSON_HEIGHT);
     
     x = Client.ITEMPOSITIONS[items, 0] + disp_x;
     y = Client.ITEMPOSITIONS[items, 1] + disp_y;

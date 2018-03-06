@@ -6,9 +6,9 @@ import java.util.Scanner;
 
 public class Config {
 
-	public static final int DISPLAY_MIN = 1;
-	public static final int DISPLAY_MID = 2;
-	public static final int DISPLAY_ALL = 3;
+	public static final short DISPLAY_MIN = 1;
+	public static final short DISPLAY_MID = 2;
+	public static final short DISPLAY_ALL = 3;
 
 	private static enum Key {
 		VISITORS("Visitors", 25), CASHIERS("Cashiers", 5), TIME("Time Unit, in ms", 20), MAXITEMS("Max Items",
@@ -19,15 +19,15 @@ public class Config {
 										2);
 
 		public final String desc;
-		public final int base;
+		public final short base;
 
 		private Key(String desc, int base) {
 			this.desc = desc;
-			this.base = base;
+			this.base = (short) base;
 		}
 	}
 
-	private final HashMap<Key, Integer> values;
+	private final HashMap<Key, Short> values;
 	private final Random random;
 	private boolean done;
 
@@ -43,7 +43,7 @@ public class Config {
 		for (Key key : Key.values()) {
 			System.out.println(key.desc + " (" + key.base + "):");
 			final String line;
-			final int value = (line = scan.nextLine()).equals("") ? key.base : Integer.parseInt(line);
+			final short value = (line = scan.nextLine()).equals("") ? key.base : Short.parseShort(line);
 			if (value < 1) {
 				throw new IllegalArgumentException(key.desc + " must be greater than 0.");
 			}
@@ -52,7 +52,7 @@ public class Config {
 		return config;
 	}
 
-	public int get(Param param) {
+	public short get(Param param) {
 		if (param == Param.VISITORS) {
 			return values.get(Key.VISITORS);
 		}
@@ -66,10 +66,12 @@ public class Config {
 			return randomRange(1, values.get(Key.MAXITEMS));
 		}
 		if (param == Param.SHOPPING) {
-			return values.get(Key.TIME) * randomRange(values.get(Key.MINSHOPPING), values.get(Key.MAXSHOPPING));
+			return (short) (values.get(Key.TIME)
+					* randomRange(values.get(Key.MINSHOPPING), values.get(Key.MAXSHOPPING)));
 		}
 		if (param == Param.CHECKOUT) {
-			return values.get(Key.TIME) * randomRange(values.get(Key.MINCHECKOUT), values.get(Key.MAXCHECKOUT));
+			return (short) (values.get(Key.TIME)
+					* randomRange(values.get(Key.MINCHECKOUT), values.get(Key.MAXCHECKOUT)));
 		}
 		if (param == Param.DISPLAY) {
 			return values.get(Key.DISPLAY);
@@ -78,7 +80,7 @@ public class Config {
 	}
 
 	public int maxItemCount() {
-		return values.get(Key.MAXITEMS);
+		return (int) values.get(Key.MAXITEMS);
 	}
 
 	public boolean isDone() {
@@ -89,8 +91,8 @@ public class Config {
 		done = true;
 	}
 
-	private int randomRange(int min, int max) {
-		return min + random.nextInt(max - min + 1);
+	private short randomRange(int min, int max) {
+		return (short) (min + random.nextInt(max - min + 1));
 	}
 
 	Config clearState() {

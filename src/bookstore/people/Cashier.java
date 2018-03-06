@@ -46,9 +46,11 @@ public class Cashier extends Person {
 		System.out.println("Cashier " + id + " is done.");
 	}
 
+	public static final int SNAPSHOT_SIZE = 3;
+
 	@Override
-	public int[] snapshot() {
-		return new int[] { id, visitor == null ? -1 : visitor.id, status.ordinal() };
+	public short[] snapshot() {
+		return new short[] { id, visitor == null ? -1 : visitor.id, (short) status.ordinal() };
 	}
 
 	@Override

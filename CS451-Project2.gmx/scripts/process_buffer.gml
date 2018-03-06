@@ -12,10 +12,10 @@ switch(type){
         var visitors = buffer_read(buffer, buffer_s32);
         var cashiers = buffer_read(buffer, buffer_s32);
         for(var i = 0; i < visitors; i++){
-            var _id = buffer_read(buffer, buffer_s32);
-            var _items = buffer_read(buffer, buffer_s32);
-            var _desired = buffer_read(buffer, buffer_s32);
-            var _status = buffer_read(buffer, buffer_s32);
+            var _id = buffer_read(buffer, buffer_s16);
+            var _items = buffer_read(buffer, buffer_s16);
+            var _desired = buffer_read(buffer, buffer_s16);
+            var _status = buffer_read(buffer, buffer_s16);
             update_visitor(_id, _items, _desired, _status);
         }
         break;

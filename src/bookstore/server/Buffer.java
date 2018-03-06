@@ -20,12 +20,13 @@ public class Buffer {
 
 	public void send() throws IOException {
 		stream.write(buffer.array());
-		buffer.clear(); // does not erase data
+		buffer.clear();
+		// does not erase data, only resets writing position
 	}
 
 	public void write(Person person) {
-		for (int i : person.snapshot()) {
-			buffer.putInt(i);
+		for (short i : person.snapshot()) {
+			buffer.putShort(i);
 		}
 	}
 

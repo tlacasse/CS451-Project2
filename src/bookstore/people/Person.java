@@ -6,7 +6,7 @@ import bookstore.Queue;
 
 public abstract class Person implements Runnable {
 
-	private static int idInc = 0;
+	private static short idInc = 0;
 
 	public static void resetId() {
 		idInc = 0;
@@ -14,7 +14,7 @@ public abstract class Person implements Runnable {
 
 	protected final Config config;
 	protected final Queue<Visitor> queue;
-	protected final int id;
+	protected final short id;
 
 	public Person(Queue<Visitor> queue, Config config) {
 		this.queue = queue;
@@ -22,7 +22,7 @@ public abstract class Person implements Runnable {
 		id = idInc++;
 	}
 
-	public abstract int[] snapshot();
+	public abstract short[] snapshot();
 
 	@Override
 	public String toString() {

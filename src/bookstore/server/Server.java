@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.List;
 
 import bookstore.Config;
+import bookstore.Param;
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
 
@@ -16,7 +17,7 @@ public class Server implements Runnable, AutoCloseable {
 
 	private Socket client;
 	private OutputStream stream;
-	private Buffer buffer;
+	private Buffer bufferPeople, bufferSize;
 
 	private List<Visitor> visitors;
 	private List<Cashier> cashiers;
@@ -37,17 +38,17 @@ public class Server implements Runnable, AutoCloseable {
 	public void run() {
 		try {
 			while (!config.isDone()) {
-				Thread.sleep(10);
-				buffer.write(Code.PEOPLE.value);
-				buffer.write(visitors.size());
-				buffer.write(cashiers.size());
+				Thread.sleep(config.get(Param.TIME));
+				bufferPeople.write(Code.PEOPLE.value);
+				bufferPeople.write(visitors.size());
+				bufferPeople.write(cashiers.size());
 				for (Visitor visitor : visitors) {
-					buffer.write(visitor);
+					bufferPeople.write(visitor);
 				}
 				for (Cashier cashier : cashiers) {
-					buffer.write(cashier);
+					bufferPeople.write(cashier);
 				}
-				buffer.send();
+				bufferPeople.send();
 			}
 		} catch (InterruptedException | IOException ie) {
 			System.out.println("Thread Failed: " + this);
@@ -56,25 +57,31 @@ public class Server implements Runnable, AutoCloseable {
 	}
 
 	public void reset() throws IOException {
-		buffer.write(Code.RESTART.value);
-		buffer.send();
+		bufferSize.write(Code.RESTART.value);
+		bufferSize.send();
 		client = server.accept();
 		System.out.println(client);
 		stream = client.getOutputStream();
 	}
 
 	public void sendSizes() throws IOException {
-		buffer.write(Code.ITEMS.value);
-		buffer.write(config.maxItemCount());
-		buffer.write(visitors.size());
-		buffer.send();
+		bufferSize.write(Code.ITEMS.value);
+		bufferSize.write(config.maxItemCount());
+		bufferSize.write(visitors.size());
+		bufferSize.send();
 	}
 
 	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config) {
 		this.visitors = visitors;
 		this.cashiers = cashiers;
 		this.config = config;
-		buffer = new Buffer(1 + (4 * ((visitors.size() * 4) + (cashiers.size() * 3) + 2)), stream);
+
+		// size = typeByte + maxItems + visitors.size
+		bufferSize = new Buffer(1 + 4 + 4, stream);
+
+		// size = typeByte + visitors.size + cashiers.size + allPeople
+		int numNumbers = (visitors.size() * Visitor.SNAPSHOT_SIZE) + (cashiers.size() * Cashier.SNAPSHOT_SIZE);
+		bufferPeople = new Buffer(1 + 4 + 4 + (2 * numNumbers), stream);
 	}
 
 	@Override
