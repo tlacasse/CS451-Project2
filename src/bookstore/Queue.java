@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Queue<E> {
 
-	private final Semaphore lock, available;
+	private final Semaphore lock, canEnter, canExit;
 	private final ArrayList<E> list;
 	private final Config config;
 
@@ -14,21 +14,24 @@ public class Queue<E> {
 		this.config = config;
 		list = new ArrayList<>();
 		lock = new Semaphore(1);
-		available = new Semaphore(0);
+		canEnter = new Semaphore(config.get(Param.QUEUEBOUND));
+		canExit = new Semaphore(0);
 	}
 
 	public void enqueue(E item) throws InterruptedException {
+		canEnter.acquire();
 		lock.acquire();
 		list.add(item);
 		lock.release();
-		available.release();
+		canExit.release();
 	}
 
 	public E dequeue() throws InterruptedException {
-		if (available.tryAcquire(config.get(Param.TIME) * 3, TimeUnit.MILLISECONDS)) {
+		if (canExit.tryAcquire(config.get(Param.TIME) * 3, TimeUnit.MILLISECONDS)) {
 			lock.acquire();
 			E item = list.remove(0);
 			lock.release();
+			canEnter.release();
 			return item;
 		}
 		return null;

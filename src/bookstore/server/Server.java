@@ -66,8 +66,9 @@ public class Server implements Runnable, AutoCloseable {
 
 	public void sendSizes() throws IOException {
 		bufferSize.write(Code.ITEMS.value);
-		bufferSize.write(config.maxItemCount());
+		bufferSize.write((int) config.get(Param.MAXITEMS));
 		bufferSize.write(visitors.size());
+		bufferSize.write((int) config.get(Param.QUEUEBOUND));
 		bufferSize.send();
 	}
 
@@ -76,8 +77,8 @@ public class Server implements Runnable, AutoCloseable {
 		this.cashiers = cashiers;
 		this.config = config;
 
-		// size = typeByte + maxItems + visitors.size
-		bufferSize = new Buffer(1 + 4 + 4, stream);
+		// size = typeByte + maxItems + visitors.size + queue.size
+		bufferSize = new Buffer(1 + 4 + 4 + 4, stream);
 
 		// size = typeByte + visitors.size + cashiers.size + allPeople
 		int numNumbers = (visitors.size() * Visitor.SNAPSHOT_SIZE) + (cashiers.size() * Cashier.SNAPSHOT_SIZE);

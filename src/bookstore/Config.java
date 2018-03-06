@@ -13,8 +13,9 @@ public class Config {
 	private static enum Key {
 		VISITORS("Visitors", 25), CASHIERS("Cashiers", 5), TIME("Time Unit, in ms", 20), MAXITEMS("Max Items",
 				6), MINSHOPPING("Min Shopping Time, in time units", 50), MAXSHOPPING("Max Shopping Time, in time units",
-						75), MINCHECKOUT("Min Checkout Time, in time units",
-								10), MAXCHECKOUT("Max Checkout Time, in time units", 20), DISPLAY(
+						75), MINCHECKOUT("Min Checkout Time, in time units", 10), MAXCHECKOUT(
+								"Max Checkout Time, in time units",
+								20), QUEUEBOUND("Checkout Queue Bound, in visitors", 10), DISPLAY(
 										"\t 1: Only Cashiers.\n\t 2: Cashiers + Checking out Visitors.\n\t 3: Cashiers + Visitors.\n Display mode",
 										2);
 
@@ -65,6 +66,9 @@ public class Config {
 		if (param == Param.ITEMS) {
 			return randomRange(1, values.get(Key.MAXITEMS));
 		}
+		if (param == Param.MAXITEMS) {
+			return values.get(Key.MAXITEMS);
+		}
 		if (param == Param.SHOPPING) {
 			return (short) (values.get(Key.TIME)
 					* randomRange(values.get(Key.MINSHOPPING), values.get(Key.MAXSHOPPING)));
@@ -73,14 +77,13 @@ public class Config {
 			return (short) (values.get(Key.TIME)
 					* randomRange(values.get(Key.MINCHECKOUT), values.get(Key.MAXCHECKOUT)));
 		}
+		if (param == Param.QUEUEBOUND) {
+			return values.get(Key.QUEUEBOUND);
+		}
 		if (param == Param.DISPLAY) {
 			return values.get(Key.DISPLAY);
 		}
 		return -1;
-	}
-
-	public int maxItemCount() {
-		return (int) values.get(Key.MAXITEMS);
 	}
 
 	public boolean isDone() {
