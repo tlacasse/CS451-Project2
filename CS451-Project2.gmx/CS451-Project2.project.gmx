@@ -23,6 +23,7 @@
       <script>scripts\_Visitor.gml</script>
       <script>scripts\visitor_step.gml</script>
       <script>scripts\visitor_draw.gml</script>
+      <script>scripts\visitor_destroy.gml</script>
     </scripts>
     <scripts name="Cashier">
       <script>scripts\_Cashier.gml</script>
@@ -35,6 +36,7 @@
       <script>scripts\update_visitor.gml</script>
       <script>scripts\update_queue.gml</script>
       <script>scripts\update_cashier.gml</script>
+      <script>scripts\change_goto.gml</script>
       <script>scripts\square_base.gml</script>
       <script>scripts\ternary.gml</script>
     </scripts>

@@ -22,11 +22,11 @@ if (room == room_visualization){
         for(var i = 1; i < ITEM_Y; i++){
             draw_line(0, ITEM_HEIGHT * i, PLACE_DIV_X, ITEM_HEIGHT * i);
         }
-        for(var i = 0; i < QUEUE_SIZE-1; i++){
+        for(var i = 0; i < QUEUE_SIZE; i++){
             var xx = room_width - ((i + 1) * QUEUEWIDTH);
             draw_line(xx, PLACE_DIV_Y, xx, room_height);
         }
-        for(var i = 0; i < COUNT_CASHIERS-1; i++){
+        for(var i = 0; i < COUNT_CASHIERS; i++){
             var yy = (i + 1) * CASHIERHEIGHT;
             draw_line(PLACE_DIV_X, yy, room_width, yy);
         }

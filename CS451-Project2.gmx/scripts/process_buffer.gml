@@ -28,6 +28,7 @@ switch(type){
             var _status = buffer_read(buffer, buffer_s16);
             update_cashier(_id, _visitor, _status);
         }
+        
         break;
     case Code.SIZE:
         MAXITEMS = buffer_read(buffer, buffer_s32);

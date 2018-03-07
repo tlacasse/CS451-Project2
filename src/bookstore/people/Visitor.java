@@ -71,8 +71,14 @@ public class Visitor extends Person {
 
 	public static final int SNAPSHOT_SIZE = 4;
 
+	private short snapshotItemAt = 0;
+
 	@Override
 	public short[] snapshot() {
+		if (items > snapshotItemAt) {
+			// make sure visitor visually moves to every item
+			return new short[] { id, ++snapshotItemAt, desiredItems, (short) Status.SHOPPING.ordinal() };
+		}
 		return new short[] { id, items, desiredItems, (short) status.ordinal() };
 	}
 

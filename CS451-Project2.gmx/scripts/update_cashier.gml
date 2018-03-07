@@ -7,10 +7,13 @@ var cashier_y = (CASHIERHEIGHT div 2) + (CASHIERHEIGHT * argument0);
 //          cashiers are id'ed first, so can just do ^^^
 
 if (is_undefined(obj)){
-    show_debug_message("Id does not exist: " + string(argument1));
+    if (argument1 > 0){
+        show_debug_message("Id does not exist: " + string(argument1));
+    }
 } else {
-    obj.gotox = room_width - (cashier_w * 2);
-    obj.gotoy = cashier_y;
+    var _gotox = room_width - (cashier_w * 2);
+    var _gotoy = cashier_y;
+    change_goto(obj, _gotox, _gotoy);
 }
 
 obj = ds_map_find_value(Client.PEOPLE, argument0);

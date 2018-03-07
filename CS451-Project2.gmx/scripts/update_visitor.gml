@@ -9,10 +9,13 @@ if (is_undefined(obj)){
     obj.desired = argument2;
     obj.status = argument3;
     if (obj.status == VisitorStatus.SHOPPING){
-        obj.gotox = Client.ITEMPOSITIONS[obj.items, 0] + obj.disp_x;
-        obj.gotoy = Client.ITEMPOSITIONS[obj.items, 1] + obj.disp_y;
+        var _gotox = Client.ITEMPOSITIONS[obj.items, 0] + obj.disp_x;
+        var _gotoy = Client.ITEMPOSITIONS[obj.items, 1] + obj.disp_y;
+        change_goto(obj, _gotox, _gotoy);
     }
     if (obj.status == VisitorStatus.DONE){
-        obj.gotox = room_width * 1.2;
+        change_goto(obj, room_width * 1.2, 
+            ternary(ds_queue_size(obj.gotoy) == 0, obj.y, ds_queue_tail(obj.gotoy))
+        );
     }
 }
