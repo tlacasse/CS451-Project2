@@ -26,7 +26,7 @@ switch(type){
             var _id = buffer_read(buffer, buffer_s16);
             var _visitor = buffer_read(buffer, buffer_s16);
             var _status = buffer_read(buffer, buffer_s16);
-            update_cashier(_id, _visitor);
+            update_cashier(_id, _visitor, _status);
         }
         break;
     case Code.SIZE:

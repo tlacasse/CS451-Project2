@@ -46,7 +46,7 @@ public class Server implements Runnable, AutoCloseable {
 			// make sure visualization is complete
 			// at fast speeds seemed like config.isDone(), but the last data was
 			// not sent yet
-			Thread.sleep(config.get(Param.TIME));
+			Thread.sleep(config.get(Param.TIME) * 3);
 			writeBuffer();
 		} catch (InterruptedException | IOException ie) {
 			System.out.println("Thread Failed: " + this);

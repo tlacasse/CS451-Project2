@@ -7,6 +7,7 @@
   <sounds name="sound"/>
   <sprites name="sprites">
     <sprite>sprites\sprite_visitor</sprite>
+    <sprite>sprites\sprite_cashier</sprite>
   </sprites>
   <backgrounds name="background"/>
   <paths name="paths"/>
@@ -22,6 +23,10 @@
       <script>scripts\_Visitor.gml</script>
       <script>scripts\visitor_step.gml</script>
       <script>scripts\visitor_draw.gml</script>
+    </scripts>
+    <scripts name="Cashier">
+      <script>scripts\_Cashier.gml</script>
+      <script>scripts\cashier_draw.gml</script>
     </scripts>
     <scripts name="ItemNumbers">
       <script>scripts\itemnumbers_draw.gml</script>
@@ -40,6 +45,7 @@
   <objects name="objects">
     <object>objects\Client</object>
     <object>objects\Visitor</object>
+    <object>objects\Cashier</object>
     <object>objects\ItemNumbers</object>
   </objects>
   <rooms name="rooms">
