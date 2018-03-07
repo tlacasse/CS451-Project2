@@ -13,6 +13,6 @@ if (is_undefined(obj)){
         obj.gotoy = Client.ITEMPOSITIONS[obj.items, 1] + obj.disp_y;
     }
     if (obj.status == VisitorStatus.DONE){
-        obj.gotox = room_width * 2;
+        obj.gotox = room_width * 1.2;
     }
 }

@@ -28,8 +28,10 @@
     </scripts>
     <scripts name="Work">
       <script>scripts\update_visitor.gml</script>
-      <script>scripts\square_base.gml</script>
       <script>scripts\update_queue.gml</script>
+      <script>scripts\update_cashier.gml</script>
+      <script>scripts\square_base.gml</script>
+      <script>scripts\ternary.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">

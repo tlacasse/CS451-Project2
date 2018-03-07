@@ -18,8 +18,9 @@ switch(type){
         }
         for(var i = 0; i < COUNT_CASHIERS; i++){
             var _id = buffer_read(buffer, buffer_s16);
-            var _items = buffer_read(buffer, buffer_s16);
-            var _desired = buffer_read(buffer, buffer_s16);
+            var _visitor = buffer_read(buffer, buffer_s16);
+            var _status = buffer_read(buffer, buffer_s16);
+            update_cashier(_id, _visitor);
         }
         var size = buffer_read(buffer, buffer_s32);
         for(var i = 0; i < size; i++){
@@ -61,5 +62,6 @@ switch(type){
         PERSON_HEIGHT = (ITEM_HEIGHT * 0.9) div PERSON_Y;
         
         QUEUEWIDTH = room_width div QUEUE_SIZE;
+        CASHIERHEIGHT = PLACE_DIV_Y div COUNT_CASHIERS;
         break;
 }

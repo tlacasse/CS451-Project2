@@ -45,11 +45,11 @@ public class Visitor extends Person {
 					System.out.println(this);
 				}
 			}
+			queue.enqueue(this);
 			status = Status.QUEUE;
 			if (config.get(Param.DISPLAY) >= Config.DISPLAY_MID) {
 				System.out.println(this);
 			}
-			queue.enqueue(this);
 			wait.acquire();
 			status = Status.DONE;
 		} catch (InterruptedException ie) {
@@ -59,14 +59,14 @@ public class Visitor extends Person {
 	}
 
 	public void checkOut() {
-		if (wait.availablePermits() > 0) {
-			throw new IllegalStateException();
+		items--;
+		if (items == 0) {
+			wait.release();
 		}
-		wait.release();
 	}
 
-	public short items() {
-		return items;
+	public short totalItems() {
+		return desiredItems;
 	}
 
 	public static final int SNAPSHOT_SIZE = 4;

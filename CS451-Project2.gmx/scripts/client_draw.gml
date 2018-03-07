@@ -25,4 +25,9 @@ if (MAXITEMS > 0){
         var xx = room_width - ((i + 1) * QUEUEWIDTH);
         draw_line(xx, PLACE_DIV_Y, xx, room_height);
     }
+    for(var i = 0; i < COUNT_CASHIERS-1; i++){
+        var yy = (i + 1) * CASHIERHEIGHT;
+        draw_line(PLACE_DIV_X, yy, room_width, yy);
+    }
+    
 }
