@@ -13,7 +13,7 @@ public class Cashier extends Person {
 	private Status status;
 	private Visitor visitor;
 
-	public Cashier(Queue<Visitor> queue, Config config) {
+	public Cashier(Queue queue, Config config) {
 		super(queue, config);
 		status = Status.WAITING;
 		visitor = null;

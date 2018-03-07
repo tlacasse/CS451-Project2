@@ -1,8 +1,13 @@
 ///visitor_step()
 
-if (point_distance(x, y, gotox, gotoy) < 15){
+var dist = point_distance(x, y, gotox, gotoy);
+var spd = max((dist * 12) / 200, 12);
+
+if (dist < spd + 5){
     x = gotox;
     y = gotoy;
+    image_alpha = 1;
 } else {
-    move_towards_point(gotox, gotoy, 12);
+    move_towards_point(gotox, gotoy, spd);
+    image_alpha = 0.5;
 }

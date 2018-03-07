@@ -8,6 +8,7 @@ import java.util.List;
 
 import bookstore.Config;
 import bookstore.Param;
+import bookstore.Queue;
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
 
@@ -22,6 +23,7 @@ public class Server implements Runnable, AutoCloseable {
 	private List<Visitor> visitors;
 	private List<Cashier> cashiers;
 	private Config config;
+	private Queue queue;
 
 	public Server() throws IOException {
 		server = new ServerSocket(6790);
@@ -40,14 +42,15 @@ public class Server implements Runnable, AutoCloseable {
 			while (!config.isDone()) {
 				Thread.sleep(config.get(Param.TIME));
 				bufferPeople.write(Code.PEOPLE.value);
-				bufferPeople.write(visitors.size());
-				bufferPeople.write(cashiers.size());
 				for (Visitor visitor : visitors) {
 					bufferPeople.write(visitor);
 				}
 				for (Cashier cashier : cashiers) {
 					bufferPeople.write(cashier);
 				}
+				final short[] ids = queue.idList();
+				bufferPeople.write(ids.length);
+				bufferPeople.write(ids);
 				bufferPeople.send();
 			}
 		} catch (InterruptedException | IOException ie) {
@@ -65,24 +68,26 @@ public class Server implements Runnable, AutoCloseable {
 	}
 
 	public void sendSizes() throws IOException {
-		bufferSize.write(Code.ITEMS.value);
-		bufferSize.write((int) config.get(Param.MAXITEMS));
-		bufferSize.write(visitors.size());
-		bufferSize.write((int) config.get(Param.QUEUEBOUND));
+		bufferSize.write(Code.SIZE.value);
+		bufferSize.write(config.get(Param.MAXITEMS), visitors.size(), cashiers.size(), config.get(Param.QUEUEBOUND));
 		bufferSize.send();
 	}
 
-	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config) {
+	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config, Queue queue) {
 		this.visitors = visitors;
 		this.cashiers = cashiers;
 		this.config = config;
+		this.queue = queue;
 
-		// size = typeByte + maxItems + visitors.size + queue.size
-		bufferSize = new Buffer(1 + 4 + 4 + 4, stream);
+		// size = typeByte + maxItems + visitors.size + cashiers.size +
+		// queue.size
+		bufferSize = new Buffer(1 + (4 * 4), stream);
 
-		// size = typeByte + visitors.size + cashiers.size + allPeople
-		int numNumbers = (visitors.size() * Visitor.SNAPSHOT_SIZE) + (cashiers.size() * Cashier.SNAPSHOT_SIZE);
-		bufferPeople = new Buffer(1 + 4 + 4 + (2 * numNumbers), stream);
+		// size = typeByte + allPeople
+		// + currentQueueSize + queue.size (filled with id's)
+		int numSnapshot = (visitors.size() * Visitor.SNAPSHOT_SIZE) + (cashiers.size() * Cashier.SNAPSHOT_SIZE);
+		bufferPeople = new Buffer(1 + 4 + (2 * (numSnapshot + config.get(Param.QUEUEBOUND))), stream);
+		System.out.println("Buffer Size: " + (1 + 4 + (2 * (numSnapshot + config.get(Param.QUEUEBOUND)))));
 	}
 
 	@Override

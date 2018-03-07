@@ -20,7 +20,7 @@ public class Visitor extends Person {
 	private short items;
 	private Status status;
 
-	public Visitor(Queue<Visitor> queue, Config config) {
+	public Visitor(Queue queue, Config config) {
 		super(queue, config);
 		status = Status.SHOPPING;
 

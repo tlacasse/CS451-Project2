@@ -8,6 +8,11 @@ if (is_undefined(obj)){
     obj.items = argument1;
     obj.desired = argument2;
     obj.status = argument3;
-    obj.gotox = Client.ITEMPOSITIONS[obj.items, 0] + obj.disp_x;
-    obj.gotoy = Client.ITEMPOSITIONS[obj.items, 1] + obj.disp_y;
+    if (obj.status == VisitorStatus.SHOPPING){
+        obj.gotox = Client.ITEMPOSITIONS[obj.items, 0] + obj.disp_x;
+        obj.gotoy = Client.ITEMPOSITIONS[obj.items, 1] + obj.disp_y;
+    }
+    if (obj.status == VisitorStatus.DONE){
+        obj.gotox = room_width * 2;
+    }
 }

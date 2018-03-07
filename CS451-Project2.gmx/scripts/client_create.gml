@@ -18,12 +18,18 @@ ITEM_Y = 0;
 ITEM_WIDTH = 0;
 ITEM_HEIGHT = 0;
 ITEMPOSITIONS[0, 0] = 0;
+
 PERSON_X = 0;
 PERSON_Y = 0;
 PERSON_WIDTH = 0;
 PERSON_HEIGHT = 0;
 
+QUEUEWIDTH = 0;
+
 MAXITEMS = -1;
+COUNT_VISITORS = -1;
+COUNT_CASHIERS = -1;
+QUEUE_SIZE = -1;
 
 v_pos_id = 0;
 
@@ -33,4 +39,16 @@ draw_set_font(font_main);
 
 if (ISCONNECTED >= 0){
     room_goto(room_visualization);
+}
+
+enum Code{
+    RESTART, PEOPLE, SIZE
+}
+
+enum VisitorStatus{
+    SHOPPING, QUEUE, DONE
+}
+
+enum CashierStatus{
+    WAITING, CHECKINGOUT, COMPLETE
 }

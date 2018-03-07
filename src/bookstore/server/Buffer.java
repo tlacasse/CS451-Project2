@@ -25,17 +25,23 @@ public class Buffer {
 	}
 
 	public void write(Person person) {
-		for (short i : person.snapshot()) {
-			buffer.putShort(i);
-		}
+		write(person.snapshot());
 	}
 
 	public void write(byte b) {
 		buffer.put(b);
 	}
 
-	public void write(int i) {
-		buffer.putInt(i);
+	public void write(int... is) {
+		for (int i = 0; i < is.length; i++) {
+			buffer.putInt(is[i]);
+		}
+	}
+
+	public void write(short... ss) {
+		for (int i = 0; i < ss.length; i++) {
+			buffer.putShort(ss[i]);
+		}
 	}
 
 }

@@ -13,10 +13,10 @@ public abstract class Person implements Runnable {
 	}
 
 	protected final Config config;
-	protected final Queue<Visitor> queue;
+	protected final Queue queue;
 	protected final short id;
 
-	public Person(Queue<Visitor> queue, Config config) {
+	public Person(Queue queue, Config config) {
 		this.queue = queue;
 		this.config = config;
 		id = idInc++;

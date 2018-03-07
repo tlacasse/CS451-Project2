@@ -11,12 +11,12 @@ import bookstore.server.Server;
 
 public class Store {
 
-	private final Queue<Visitor> queue;
+	private final Queue queue;
 	private final Config config;
 
 	public Store(Config config) {
 		this.config = config;
-		queue = new Queue<>(config);
+		queue = new Queue(config);
 	}
 
 	public void open(Server server) throws IOException {
@@ -37,8 +37,9 @@ public class Store {
 			visitorList.add(visitor);
 			visitorThreads.add(new Thread(visitor));
 		}
-		server.setReferences(visitorList, cashierList, config);
+		server.setReferences(visitorList, cashierList, config, queue);
 		server.sendSizes();
+		Person.resetId();
 
 		System.out.println("\n!!!!! BEGIN !!!!!\n");
 
@@ -53,7 +54,6 @@ public class Store {
 		} catch (InterruptedException ie) {
 			ie.printStackTrace();
 		}
-		Person.resetId();
 	}
 
 	private void startThreads(List<Thread> list) {

@@ -23,12 +23,13 @@
       <script>scripts\visitor_step.gml</script>
       <script>scripts\visitor_draw.gml</script>
     </scripts>
+    <scripts name="ItemNumbers">
+      <script>scripts\itemnumbers_draw.gml</script>
+    </scripts>
     <scripts name="Work">
       <script>scripts\update_visitor.gml</script>
       <script>scripts\square_base.gml</script>
-    </scripts>
-    <scripts name="ItemNumbers">
-      <script>scripts\itemnumbers_draw.gml</script>
+      <script>scripts\update_queue.gml</script>
     </scripts>
   </scripts>
   <fonts name="fonts">
