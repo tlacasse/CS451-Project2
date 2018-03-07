@@ -41,22 +41,31 @@ public class Server implements Runnable, AutoCloseable {
 		try {
 			while (!config.isDone()) {
 				Thread.sleep(config.get(Param.TIME));
-				buffer.write(Code.PEOPLE.value);
-				for (Visitor visitor : visitors) {
-					buffer.write(visitor);
-				}
-				for (Cashier cashier : cashiers) {
-					buffer.write(cashier);
-				}
-				final short[] ids = queue.idList();
-				buffer.write(ids.length);
-				buffer.write(ids);
-				buffer.send();
+				writeBuffer();
 			}
+			// make sure visualization is complete
+			// at fast speeds seemed like config.isDone(), but the last data was
+			// not sent yet
+			Thread.sleep(config.get(Param.TIME));
+			writeBuffer();
 		} catch (InterruptedException | IOException ie) {
 			System.out.println("Thread Failed: " + this);
 			ie.printStackTrace();
 		}
+	}
+
+	private void writeBuffer() throws InterruptedException, IOException {
+		buffer.write(Code.PEOPLE.value);
+		for (Visitor visitor : visitors) {
+			buffer.write(visitor);
+		}
+		final short[] ids = queue.idList();
+		buffer.write(ids.length);
+		buffer.write(ids);
+		for (Cashier cashier : cashiers) {
+			buffer.write(cashier);
+		}
+		buffer.send();
 	}
 
 	public void reset() throws IOException {

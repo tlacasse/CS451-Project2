@@ -1,7 +1,7 @@
 ///visitor_step()
 
 var dist = point_distance(x, y, gotox, gotoy);
-var spd = max((dist * 12) / 200, 12);
+var spd = max((dist * 12) / 160, 12);
 
 if (dist < spd + 5){
     x = gotox;

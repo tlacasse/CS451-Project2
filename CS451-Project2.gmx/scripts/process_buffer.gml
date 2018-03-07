@@ -16,15 +16,17 @@ switch(type){
             var _status = buffer_read(buffer, buffer_s16);
             update_visitor(_id, _items, _desired, _status);
         }
+        
+        var size = buffer_read(buffer, buffer_s32);
+        for(var i = 0; i < size; i++){
+            update_queue(buffer_read(buffer, buffer_s16), i);
+        }
+        
         for(var i = 0; i < COUNT_CASHIERS; i++){
             var _id = buffer_read(buffer, buffer_s16);
             var _visitor = buffer_read(buffer, buffer_s16);
             var _status = buffer_read(buffer, buffer_s16);
             update_cashier(_id, _visitor);
-        }
-        var size = buffer_read(buffer, buffer_s32);
-        for(var i = 0; i < size; i++){
-            update_queue(buffer_read(buffer, buffer_s16), i);
         }
         break;
     case Code.SIZE:

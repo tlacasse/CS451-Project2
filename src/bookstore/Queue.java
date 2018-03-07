@@ -39,12 +39,14 @@ public class Queue {
 		return null;
 	}
 
-	public short[] idList() {
+	public short[] idList() throws InterruptedException {
 		final short[] result = new short[config.get(Param.QUEUEBOUND)];
 		int i = 0;
+		lock.acquire(); // did get ConcurrentModException, so need lock
 		for (Visitor v : list) {
 			result[i++] = v.snapshot()[0];
 		}
+		lock.release();
 		return result;
 	}
 
