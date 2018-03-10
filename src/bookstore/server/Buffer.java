@@ -10,15 +10,13 @@ import bookstore.people.Person;
 public class Buffer {
 
 	private final ByteBuffer buffer;
-	private final OutputStream stream;
 
-	public Buffer(int size, OutputStream stream) {
-		this.stream = stream;
+	public Buffer(int size) {
 		buffer = ByteBuffer.allocate(size);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
 	}
 
-	public void send() throws IOException {
+	public void send(OutputStream stream) throws IOException {
 		stream.write(buffer.array());
 		buffer.clear();
 		// does not erase data, only resets writing position

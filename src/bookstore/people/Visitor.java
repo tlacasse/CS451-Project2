@@ -38,18 +38,17 @@ public class Visitor extends Person {
 	public void run() {
 		try {
 			Thread.sleep((100 + RAND.nextInt(150)) * config.get(Param.TIME));
+
 			while (items < desiredItems) {
 				Thread.sleep(config.get(Param.SHOPPING));
 				items++;
-				if (config.get(Param.DISPLAY) >= Config.DISPLAY_ALL) {
-					System.out.println(this);
-				}
+				displayIf(Config.DISPLAY_ALL);
 			}
+
 			queue.enqueue(this);
 			status = Status.QUEUE;
-			if (config.get(Param.DISPLAY) >= Config.DISPLAY_MID) {
-				System.out.println(this);
-			}
+			displayIf(Config.DISPLAY_MID);
+
 			wait.acquire();
 			status = Status.DONE;
 		} catch (InterruptedException ie) {
@@ -58,26 +57,31 @@ public class Visitor extends Person {
 		}
 	}
 
-	public void checkOut() {
-		items--;
-		if (items == 0) {
-			wait.release();
+	private void displayIf(int minDisplayConfig) {
+		if (config.get(Param.DISPLAY) >= minDisplayConfig) {
+			System.out.println(this);
 		}
 	}
 
-	public short totalItems() {
-		return desiredItems;
+	public void checkOut() {
+		if (status == Status.QUEUE) {
+			items--;
+			if (items == 0) {
+				wait.release();
+			}
+		} else {
+			throw new IllegalStateException("Must be in queue.");
+		}
 	}
 
 	public static final int SNAPSHOT_SIZE = 4;
-
 	private short snapshotItemAt = 0;
 
 	@Override
 	public short[] snapshot() {
 		if (items > snapshotItemAt) {
 			// make sure visitor visually moves to every item
-			return new short[] { id, ++snapshotItemAt, desiredItems, (short) Status.SHOPPING.ordinal() };
+			return new short[] { id, snapshotItemAt++, desiredItems, (short) Status.SHOPPING.ordinal() };
 		}
 		return new short[] { id, items, desiredItems, (short) status.ordinal() };
 	}

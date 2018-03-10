@@ -14,6 +14,8 @@ import bookstore.people.Visitor;
 
 public class Server implements Runnable, AutoCloseable {
 
+	public static final int PORT = 6790;
+
 	private final ServerSocket server;
 
 	private Socket client;
@@ -26,14 +28,15 @@ public class Server implements Runnable, AutoCloseable {
 	private Queue queue;
 
 	public Server() throws IOException {
-		server = new ServerSocket(6790);
+		server = new ServerSocket(PORT);
 		System.out.println(server);
+		getClient();
+	}
+
+	private void getClient() throws IOException {
 		client = server.accept();
 		System.out.println(client);
 		stream = client.getOutputStream();
-
-		visitors = null;
-		cashiers = null;
 	}
 
 	@Override
@@ -46,7 +49,7 @@ public class Server implements Runnable, AutoCloseable {
 			// make sure visualization is complete
 			// at fast speeds seemed like config.isDone(), but the last data was
 			// not sent yet
-			Thread.sleep(config.get(Param.TIME) * 3);
+			Thread.sleep(config.get(Param.TIME) * 5);
 			writeBuffer();
 		} catch (InterruptedException | IOException ie) {
 			System.out.println("Thread Failed: " + this);
@@ -54,33 +57,37 @@ public class Server implements Runnable, AutoCloseable {
 		}
 	}
 
+	// Buffer = visitor -> currentQueueSize -> queueIds -> cashiers
 	private void writeBuffer() throws InterruptedException, IOException {
 		buffer.write(Code.PEOPLE.value);
+
 		for (Visitor visitor : visitors) {
 			buffer.write(visitor);
 		}
+
 		final short[] ids = queue.idList();
 		buffer.write(ids.length);
 		buffer.write(ids);
+
 		for (Cashier cashier : cashiers) {
 			buffer.write(cashier);
 		}
-		buffer.send();
+
+		buffer.send(stream);
 	}
 
 	public void reset() throws IOException {
 		buffer.write(Code.RESTART.value);
-		buffer.send();
+		buffer.send(stream);
+
 		client.close();
-		client = server.accept();
-		System.out.println(client);
-		stream = client.getOutputStream();
+		getClient();
 	}
 
 	public void sendSizes() throws IOException {
 		buffer.write(Code.SIZE.value);
 		buffer.write(config.get(Param.MAXITEMS), visitors.size(), cashiers.size(), config.get(Param.QUEUEBOUND));
-		buffer.send();
+		buffer.send(stream);
 	}
 
 	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config, Queue queue) {
@@ -97,7 +104,7 @@ public class Server implements Runnable, AutoCloseable {
 		int size = (visitors.size() * Visitor.SNAPSHOT_SIZE) + (cashiers.size() * Cashier.SNAPSHOT_SIZE);
 		size = 1 + 4 + (2 * (size + config.get(Param.QUEUEBOUND)));
 		size = Math.max(size, 1 + (4 * 4));
-		buffer = new Buffer(size, stream);
+		buffer = new Buffer(size);
 		System.out.println("Server Buffer Size: " + size + " bytes.");
 	}
 

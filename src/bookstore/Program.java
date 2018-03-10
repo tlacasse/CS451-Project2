@@ -14,14 +14,13 @@ public class Program {
 			while (isYes(line)) {
 				if (config != null) {
 					server.reset();
-
 					System.out.println("??? Use Same Parameters? (y/n)");
 					config = isYes(scan.nextLine()) ? config.clearState() : null;
 				}
 				if (config == null) {
 					config = Config.create(scan);
 				}
-				(new Store(config)).open(server);
+				Store.open(server, config);
 				System.out.println("??? Go Again? (y/n)");
 				line = scan.nextLine();
 			}
@@ -45,6 +44,9 @@ public class Program {
 	public static String rightPad(String str, int len) {
 		str = "                   " + str;
 		return str.substring(str.length() - len, str.length());
+	}
+
+	private Program() {
 	}
 
 }

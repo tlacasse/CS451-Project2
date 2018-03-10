@@ -11,15 +11,9 @@ import bookstore.server.Server;
 
 public class Store {
 
-	private final Queue queue;
-	private final Config config;
+	public static void open(Server server, Config config) throws IOException {
+		Queue queue = new Queue(config);
 
-	public Store(Config config) {
-		this.config = config;
-		queue = new Queue(config);
-	}
-
-	public void open(Server server) throws IOException {
 		final Thread serverThread = new Thread(server);
 
 		final ArrayList<Cashier> cashierList = new ArrayList<>();
@@ -56,13 +50,13 @@ public class Store {
 		}
 	}
 
-	private void startThreads(List<Thread> list) {
+	private static void startThreads(List<Thread> list) {
 		for (Thread thread : list) {
 			thread.start();
 		}
 	}
 
-	private void stopThreads(List<Thread> list) {
+	private static void stopThreads(List<Thread> list) {
 		for (Thread thread : list) {
 			try {
 				thread.join();
@@ -70,6 +64,9 @@ public class Store {
 				ie.printStackTrace();
 			}
 		}
+	}
+
+	private Store() {
 	}
 
 }

@@ -16,7 +16,6 @@ public class Cashier extends Person {
 	public Cashier(Queue queue, Config config) {
 		super(queue, config);
 		status = Status.WAITING;
-		visitor = null;
 	}
 
 	@Override
@@ -25,19 +24,17 @@ public class Cashier extends Person {
 			while (!config.isDone()) {
 				visitor = queue.dequeue();
 				if (visitor != null) {
-					status = Status.CHECKINGOUT;
-					System.out.println(this);
-					for (int i = 0; i < visitor.totalItems(); i++) {
+					setStatusAndPrint(Status.CHECKINGOUT);
+					// .snapshot[2] is desiredItems
+					for (int i = 0; i < visitor.snapshot()[2]; i++) {
 						Thread.sleep(config.get(Param.CHECKOUT));
 						visitor.checkOut();
 					}
 					visitor = null;
-					status = Status.COMPLETE;
-					System.out.println(this);
+					setStatusAndPrint(Status.COMPLETE);
 				} else {
 					if (status != Status.WAITING) {
-						status = Status.WAITING;
-						System.out.println(this);
+						setStatusAndPrint(Status.WAITING);
 					}
 				}
 			}
@@ -46,6 +43,11 @@ public class Cashier extends Person {
 			ie.printStackTrace();
 		}
 		System.out.println("Cashier " + id + " is done.");
+	}
+
+	private void setStatusAndPrint(Status status) {
+		this.status = status;
+		System.out.println(this);
 	}
 
 	public static final int SNAPSHOT_SIZE = 3;
