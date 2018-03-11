@@ -20,10 +20,8 @@ with(instance_create(-100, -100, Visitor)){
     ds_queue_enqueue(gotox, x);
     ds_queue_enqueue(gotoy, y);
     
-    destx = x;
-    desty = y;
-    
-    at_dest = false;
+    canqueue = false;
+    preitems = 0;
 }
 
 Client.v_pos_id++;

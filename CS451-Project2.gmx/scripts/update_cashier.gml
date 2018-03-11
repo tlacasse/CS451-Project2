@@ -11,9 +11,11 @@ if (is_undefined(obj)){
         show_debug_message("Id does not exist: " + string(argument1));
     }
 } else {
-    var _gotox = room_width - (cashier_w * 2);
-    var _gotoy = cashier_y;
-    change_goto(obj, _gotox, _gotoy);
+    if (obj.status == VisitorStatus.QUEUE && obj.canqueue){
+        var _gotox = room_width - (cashier_w * 2);
+        var _gotoy = cashier_y;
+        change_goto(obj, _gotox, _gotoy);
+    }
 }
 
 obj = ds_map_find_value(Client.PEOPLE, argument0);
