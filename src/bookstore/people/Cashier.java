@@ -22,17 +22,23 @@ public class Cashier extends Person {
 	public void run() {
 		try {
 			while (!config.isDone()) {
+				// try to remove a visitor from the queue, can wait, but only
+				// for 3 time intervals to allow this to get back to the
+				// "!config.isDone()" condition
 				visitor = queue.dequeue();
 				if (visitor != null) {
 					setStatusAndPrint(Status.CHECKINGOUT);
-					// .snapshot[2] is desiredItems
-					for (int i = 0; i < visitor.snapshot()[2]; i++) {
+					for (int i = 0; i < visitor.snapshot()[Visitor.TOTALITEMS_INDEX]; i++) {
+						// check out each individual item
 						Thread.sleep(config.get(Param.CHECKOUT));
 						visitor.checkOut();
 					}
 					visitor = null;
 					setStatusAndPrint(Status.COMPLETE);
 				} else {
+					// COMPLETE is different than WAITING, after a cashier
+					// completes checking out, they will either wait or checkout
+					// someone else in the queue
 					if (status != Status.WAITING) {
 						setStatusAndPrint(Status.WAITING);
 					}
@@ -52,6 +58,7 @@ public class Cashier extends Person {
 
 	public static final int SNAPSHOT_SIZE = 3;
 
+	// everything about the cashier the visualization needs.
 	@Override
 	public short[] snapshot() {
 		return new short[] { id, visitor == null ? -1 : visitor.id, (short) status.ordinal() };

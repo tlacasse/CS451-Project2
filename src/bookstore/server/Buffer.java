@@ -7,6 +7,7 @@ import java.nio.ByteOrder;
 
 import bookstore.people.Person;
 
+//stores the bytes that should be send to the client
 public class Buffer {
 
 	private final ByteBuffer buffer;
@@ -14,6 +15,7 @@ public class Buffer {
 	public Buffer(int size) {
 		buffer = ByteBuffer.allocate(size);
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
+		// Game Maker reads as little endian, ByteBuffer defaults as big endian
 	}
 
 	public void send(OutputStream stream) throws IOException {

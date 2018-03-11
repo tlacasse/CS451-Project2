@@ -12,9 +12,9 @@ import bookstore.Queue;
 import bookstore.people.Cashier;
 import bookstore.people.Visitor;
 
+// IPC for visualization. This is the server, sending data to the Game Maker client, using sockets.
+// Only one way because the java program doesn't really need any client feedback.
 public class Server implements Runnable, AutoCloseable {
-
-	public static final int PORT = 6790;
 
 	private final ServerSocket server;
 
@@ -27,8 +27,9 @@ public class Server implements Runnable, AutoCloseable {
 	private Config config;
 	private Queue queue;
 
-	public Server() throws IOException {
-		server = new ServerSocket(PORT);
+	public Server(int port) throws IOException {
+		// create sockets and connect
+		server = new ServerSocket(port);
 		System.out.println(server);
 		getClient();
 	}
@@ -36,13 +37,16 @@ public class Server implements Runnable, AutoCloseable {
 	private void getClient() throws IOException {
 		client = server.accept();
 		System.out.println(client);
-		stream = client.getOutputStream();
+		stream = client.getOutputStream(); // only need outputstream to send
+											// data. don't need to recieve data.
 	}
 
 	@Override
 	public void run() {
 		try {
 			while (!config.isDone()) {
+				// write simulation status at every time interval. not exact,
+				// due to OS scheduling, but can't really tell.
 				Thread.sleep(config.get(Param.TIME));
 				writeBuffer();
 			}
@@ -90,6 +94,7 @@ public class Server implements Runnable, AutoCloseable {
 		buffer.send(stream);
 	}
 
+	// and create the buffer
 	public void setReferences(List<Visitor> visitors, List<Cashier> cashiers, Config config, Queue queue) {
 		this.visitors = visitors;
 		this.cashiers = cashiers;
@@ -108,6 +113,7 @@ public class Server implements Runnable, AutoCloseable {
 		System.out.println("Server Buffer Size: " + size + " bytes.");
 	}
 
+	// called implicitly from try with resources
 	@Override
 	public void close() throws Exception {
 		client.close();

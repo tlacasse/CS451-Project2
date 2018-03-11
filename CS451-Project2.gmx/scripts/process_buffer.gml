@@ -4,6 +4,7 @@ var buffer = argument0;
 
 var type = buffer_read(buffer, buffer_s8);
 
+//determine what data is being sent over.
 switch(type){
     case Code.RESTART:
         game_restart();

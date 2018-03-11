@@ -4,6 +4,8 @@ import bookstore.Config;
 import bookstore.Program;
 import bookstore.Queue;
 
+// covers the similarities between Cashier and Visitors, 
+// mostly that they implement Runnable and have a reference to the contested resource (the Queue)
 public abstract class Person implements Runnable {
 
 	private static short idInc = 0;
@@ -22,6 +24,8 @@ public abstract class Person implements Runnable {
 		id = idInc++;
 	}
 
+	// this is the main data that will be sent to the visualization. Also, using
+	// shorts because they are smaller -> sending less data
 	public abstract short[] snapshot();
 
 	@Override
