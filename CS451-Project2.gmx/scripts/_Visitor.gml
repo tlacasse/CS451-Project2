@@ -21,7 +21,10 @@ with(instance_create(-100, -100, Visitor)){
     ds_queue_enqueue(gotoy, y);
     
     canqueue = false;
+    gocheckout = false;
+    goleave = false;
     preitems = 0;
 }
 
 Client.v_pos_id++;
+Client.count_shopping++;

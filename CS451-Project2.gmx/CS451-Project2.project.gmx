@@ -17,7 +17,6 @@
       <script>scripts\client_delete.gml</script>
       <script>scripts\client_receive.gml</script>
       <script>scripts\client_draw.gml</script>
-      <script>scripts\process_buffer.gml</script>
     </scripts>
     <scripts name="Visitor">
       <script>scripts\_Visitor.gml</script>
@@ -33,6 +32,7 @@
       <script>scripts\itemnumbers_draw.gml</script>
     </scripts>
     <scripts name="Work">
+      <script>scripts\process_buffer.gml</script>
       <script>scripts\update_visitor.gml</script>
       <script>scripts\update_queue.gml</script>
       <script>scripts\update_cashier.gml</script>

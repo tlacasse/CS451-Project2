@@ -11,11 +11,17 @@ if (is_undefined(obj)){
     if (obj.canqueue){
         if (obj.status == VisitorStatus.DONE){
             change_goto(obj, room_width * 1.2, ds_queue_tail(obj.gotoy));
+            if (!obj.goleave){
+                obj.goleave = true;
+                count_checkout--;
+            }
         }
     } else {
         //force to go to every item
         if (obj.preitems == obj.desired){
             obj.canqueue = true;
+            count_shopping--;
+            count_queue++
         }
         obj.status = VisitorStatus.SHOPPING;
         var _gotox = Client.ITEMPOSITIONS[obj.preitems, 0] + obj.disp_x;

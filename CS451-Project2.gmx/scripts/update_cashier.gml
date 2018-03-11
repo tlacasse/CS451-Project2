@@ -12,6 +12,11 @@ if (is_undefined(obj)){
     }
 } else {
     if (obj.status == VisitorStatus.QUEUE && obj.canqueue){
+        if (!obj.gocheckout){
+            obj.gocheckout = true;
+            count_queue--;
+            count_checkout++;
+        }
         var _gotox = room_width - (cashier_w * 2);
         var _gotoy = cashier_y;
         change_goto(obj, _gotox, _gotoy);

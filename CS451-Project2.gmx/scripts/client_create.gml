@@ -13,6 +13,7 @@ PEOPLE = ds_map_create();
 
 PLACE_DIV_X = 672;
 PLACE_DIV_Y = 672;
+PLACE_GAP_Y = 32;
 PLACE_ITEM_R = 100;
 
 ITEM_X = 0;
@@ -36,6 +37,10 @@ COUNT_CASHIERS = -1;
 QUEUE_SIZE = -1;
 
 v_pos_id = 0;
+
+count_shopping = 0;
+count_queue = 0;
+count_checkout = 0;
 
 
 draw_set_color(c_black);
